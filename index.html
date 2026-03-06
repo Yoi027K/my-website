@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yoi027K的个人小站</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f0ea;
+      --bg2: #ede8e1;
+      --bg3: #ffffff;
+      --text: #2c2420;
+      --text2: #6b5e57;
+      --text3: #9c8e88;
+      --accent: #c0735a;
+      --accent2: #e8956d;
+      --border: rgba(0,0,0,0.08);
+      --shadow: rgba(0,0,0,0.07);
+      --shadow-lg: rgba(0,0,0,0.12);
+      --tag-bg: rgba(192,115,90,0.1);
+    }
+    [data-theme="dark"] {
+      --bg: #151210;
+      --bg2: #1e1a17;
+      --bg3: #252018;
+      --text: #f0e8e0;
+      --text2: #b8a89e;
+      --text3: #7a6a62;
+      --accent: #e0906a;
+      --accent2: #f0a882;
+      --border: rgba(255,255,255,0.07);
+      --shadow: rgba(0,0,0,0.3);
+      --shadow-lg: rgba(0,0,0,0.5);
+      --tag-bg: rgba(224,144,106,0.15);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.4s ease, color 0.4s ease;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── 背景纹理 ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.018'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── 导航 ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      height: 64px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      transition: background 0.4s ease, border-color 0.4s ease;
+    }
+
+    .nav-logo {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.875rem;
+      color: var(--text2);
+      text-decoration: none;
+      transition: color 0.2s;
+      letter-spacing: 0.03em;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* 主题切换按钮 */
+    .theme-btn {
+      width: 44px; height: 24px;
+      border-radius: 12px;
+      border: 1.5px solid var(--border);
+      background: var(--bg2);
+      cursor: pointer;
+      position: relative;
+      transition: background 0.3s, border-color 0.3s;
+      flex-shrink: 0;
+    }
+    .theme-btn::after {
+      content: '';
+      position: absolute;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      top: 2px; left: 2px;
+      background: var(--accent);
+      transition: transform 0.3s cubic-bezier(.34,1.56,.64,1);
+    }
+    [data-theme="dark"] .theme-btn::after { transform: translateX(20px); }
+
+    /* ── 主体布局 ── */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 clamp(1.5rem, 5vw, 3rem);
+    }
+
+    section { padding-top: 96px; }
+
+    /* ── Hero ── */
+    #hero {
+      padding-top: 140px;
+      padding-bottom: 20px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .hero-text { animation: fadeUp 0.8s ease both; }
+
+    .hero-greeting {
+      font-size: 0.875rem;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      font-weight: 500;
+    }
+
+    .hero-name {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(2.2rem, 6vw, 3.6rem);
+      font-weight: 600;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-name span {
+      color: var(--accent);
+      position: relative;
+    }
+    .hero-name span::after {
+      content: '';
+      position: absolute;
+      bottom: 2px; left: 0; right: 0;
+      height: 3px;
+      background: var(--accent2);
+      border-radius: 2px;
+      opacity: 0.5;
+    }
+
+    .hero-bio {
+      font-size: 1rem;
+      color: var(--text2);
+      line-height: 1.9;
+      max-width: 480px;
+      margin-bottom: 2rem;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .tag {
+      font-size: 0.8rem;
+      padding: 0.3rem 0.85rem;
+      border-radius: 100px;
+      background: var(--tag-bg);
+      color: var(--accent);
+      border: 1px solid rgba(192,115,90,0.2);
+      transition: background 0.2s, transform 0.2s;
+    }
+    .tag:hover { background: var(--accent); color: white; transform: translateY(-2px); }
+
+    /* 社交链接 */
+    .social-links {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.55rem 1.1rem;
+      border-radius: 100px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      border: 1.5px solid var(--border);
+      color: var(--text2);
+      background: var(--bg3);
+      transition: all 0.25s cubic-bezier(.34,1.56,.64,1);
+      box-shadow: 0 2px 8px var(--shadow);
+    }
+    .social-link:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px var(--shadow-lg);
+    }
+
+    .social-link svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+    /* 头像 */
+    .avatar-wrap {
+      animation: fadeUp 0.8s 0.15s ease both;
+    }
+
+    .avatar {
+      width: clamp(120px, 20vw, 180px);
+      height: clamp(120px, 20vw, 180px);
+      border-radius: 38% 62% 58% 42% / 44% 48% 52% 56%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(3rem, 6vw, 5rem);
+      box-shadow: 0 12px 40px var(--shadow-lg);
+      animation: float 6s ease-in-out infinite;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .avatar::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.25) 0%, transparent 60%);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); border-radius: 38% 62% 58% 42% / 44% 48% 52% 56%; }
+      33% { transform: translateY(-10px) rotate(1deg); border-radius: 58% 42% 38% 62% / 56% 44% 48% 52%; }
+      66% { transform: translateY(-5px) rotate(-1deg); border-radius: 44% 56% 62% 38% / 38% 58% 42% 62%; }
+    }
+
+    /* ── 分隔线 ── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+      margin: 2.5rem 0 0;
+    }
+
+    /* ── 版块标题 ── */
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── 文章列表 ── */
+    .articles-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .article-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 1.5rem 1.75rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(.34,1.2,.64,1);
+      box-shadow: 0 2px 12px var(--shadow);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      align-items: start;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .article-card:hover {
+      transform: translateX(6px);
+      box-shadow: 0 8px 30px var(--shadow-lg);
+      border-color: rgba(192,115,90,0.3);
+    }
+
+    .article-card:hover .article-arrow { opacity: 1; transform: translateX(0); }
+
+    .article-meta {
+      font-size: 0.78rem;
+      color: var(--text3);
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .article-dot {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: inline-block;
+    }
+
+    .article-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 1.05rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      line-height: 1.5;
+    }
+
+    .article-excerpt {
+      font-size: 0.875rem;
+      color: var(--text2);
+      line-height: 1.7;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .article-tags {
+      display: flex;
+      gap: 0.4rem;
+      margin-top: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .article-tag {
+      font-size: 0.72rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 100px;
+      background: var(--tag-bg);
+      color: var(--accent);
+    }
+
+    .article-arrow {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      opacity: 0;
+      transform: translateX(-8px);
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ── 关于 ── */
+    .about-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 2rem 2.25rem;
+      box-shadow: 0 2px 12px var(--shadow);
+    }
+
+    .about-text {
+      font-size: 0.95rem;
+      color: var(--text2);
+      line-height: 2;
+    }
+
+    .about-text p + p { margin-top: 1rem; }
+
+    .about-highlight {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* ── 页脚 ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 3rem 1rem 2.5rem;
+      color: var(--text3);
+      font-size: 0.82rem;
+      border-top: 1px solid var(--border);
+      margin-top: 5rem;
+    }
+
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* ── 动画 ── */
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .avatar-emoji {
+      display: inline-block;
+      animation: spin 4s linear infinite;
+      font-family: 'Noto Color Emoji', sans-serif;
+    }
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      #hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .avatar-wrap { order: -1; display: flex; justify-content: center; }
+      .hero-tags, .social-links { justify-content: center; }
+      .hero-bio { margin: 0 auto 2rem; }
+      .article-card { grid-template-columns: 1fr; }
+      .article-arrow { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 导航 -->
+  <nav>
+    <a href="#hero" class="nav-logo">✦ Home Page</a>
+    <ul class="nav-links">
+      <li><a href="#about">关于</a></li>
+      <li><a href="#articles">杂谈</a></li>
+      <li>
+        <button class="theme-btn" id="themeBtn" aria-label="切换主题" title="切换深色/浅色模式"></button>
+      </li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <!-- Hero -->
+    <section id="hero">
+      <div class="hero-text">
+        <h1 class="hero-name"><span>Yoi027K</span>的个人小站</h1>
+        <p class="hero-bio">偶尔写点东西，随缘更新。</p>
+        <div class="hero-tags">
+          <span class="tag">📖 阅读</span>
+          <span class="tag">💬 杂谈</span>
+          <span class="tag">🎵 音乐</span>
+          <span class="tag">🌿 生活</span>
+        </div>
+        <div class="social-links">
+          <!-- X (Twitter) -->
+          <a href="https://x.com/Yoi027k" target="_blank" class="social-link">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            X
+          </a>
+          <!-- 哔哩哔哩 -->
+          <a href="https://space.bilibili.com/Yoi027K" target="_blank" class="social-link">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.789 1.894v7.52c.02.764.283 1.396.789 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.497.769-1.129.789-1.893v-7.52c-.02-.765-.283-1.396-.789-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373z"/></svg>
+            哔哩哔哩
+          </a>
+          <!-- GitHub -->
+          <a href="#" class="social-link">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+            GitHub
+          </a>
+          <!-- 邮件 -->
+          <a href="/cdn-cgi/l/email-protection#29414c454546694c51484459454c074a4644" class="social-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><polyline points="2,4 12,13 22,4"/></svg>
+            邮件
+          </a>
+        </div>
+      </div>
+      <div class="avatar-wrap">
+        <div class="avatar"><span class="avatar-emoji">🐷</span></div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 关于我 -->
+    <section id="about">
+      <div class="section-header fade-in">
+        <h2 class="section-title">关于我</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="about-card fade-in">
+        <div class="about-text">
+          <p>
+            你好，我是 <span class="about-highlight">你的名字</span>，一个喜欢用文字记录生活的普通人。
+            这个小站是我的数字花园，存放着我的所思所想。
+          </p>
+          <p>
+            平时喜欢<span class="about-highlight">读书、听音乐、散步</span>，偶尔也会写写东西。
+            这里的文章没有特定主题，可能是一篇读书感悟，也可能是某个午后的随想，
+            或者是生活中某个细小的观察。
+          </p>
+          <p>
+            如果你也喜欢这些漫无边际的文字，欢迎多来坐坐。🍵
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 文章列表 -->
+    <section id="articles">
+      <div class="section-header fade-in">
+        <h2 class="section-title">近期文章</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="articles-grid">
+
+        <a href="#" class="article-card fade-in">
+          <div>
+            <div class="article-meta">
+              <span class="article-dot"></span>
+              <span>2025年3月5日</span>
+              <span>·</span>
+              <span>阅读约 5 分钟</span>
+            </div>
+            <h3 class="article-title">在信息过载的时代，如何找回专注的能力</h3>
+            <p class="article-excerpt">
+              每天打开手机，无数通知涌来。我们似乎越来越难以在一件事上停留超过三分钟。
+              这篇文章想聊聊我这一年来如何慢慢找回专注的感觉……
+            </p>
+            <div class="article-tags">
+              <span class="article-tag">生活</span>
+              <span class="article-tag">思考</span>
+            </div>
+          </div>
+          <div class="article-arrow">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </a>
+
+        <a href="#" class="article-card fade-in">
+          <div>
+            <div class="article-meta">
+              <span class="article-dot"></span>
+              <span>2025年2月18日</span>
+              <span>·</span>
+              <span>阅读约 8 分钟</span>
+            </div>
+            <h3 class="article-title">重读《小王子》：这一次我读懂了什么</h3>
+            <p class="article-excerpt">
+              第一次读《小王子》是小学，觉得只是一本童话。二十多岁再翻开它，
+              却在某些段落前久久停留，不知为何眼眶发热……
+            </p>
+            <div class="article-tags">
+              <span class="article-tag">阅读</span>
+              <span class="article-tag">书评</span>
+            </div>
+          </div>
+          <div class="article-arrow">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </a>
+
+        <a href="#" class="article-card fade-in">
+          <div>
+            <div class="article-meta">
+              <span class="article-dot"></span>
+              <span>2025年2月3日</span>
+              <span>·</span>
+              <span>阅读约 3 分钟</span>
+            </div>
+            <h3 class="article-title">冬天的傍晚，和一首老歌</h3>
+            <p class="article-excerpt">
+              走在路上，耳机里忽然响起了那首多年前的歌，
+              记忆就这样毫无预兆地涌上来。有些东西，你以为忘了，其实只是藏得深了一点……
+            </p>
+            <div class="article-tags">
+              <span class="article-tag">随笔</span>
+              <span class="article-tag">音乐</span>
+            </div>
+          </div>
+          <div class="article-arrow">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </a>
+
+        <a href="#" class="article-card fade-in">
+          <div>
+            <div class="article-meta">
+              <span class="article-dot"></span>
+              <span>2025年1月22日</span>
+              <span>·</span>
+              <span>阅读约 6 分钟</span>
+            </div>
+            <h3 class="article-title">2024 年度总结：一些没能说出口的话</h3>
+            <p class="article-excerpt">
+              这一年发生了很多事，有些让我成长，有些让我疼痛。
+              写这篇文章，既是回顾，也是向过去的自己道别……
+            </p>
+            <div class="article-tags">
+              <span class="article-tag">年终</span>
+              <span class="article-tag">成长</span>
+            </div>
+          </div>
+          <div class="article-arrow">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© 2025 Yoi027K的个人小站</p>
+  </footer>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    // 主题切换
+    const btn = document.getElementById('themeBtn');
+    const html = document.documentElement;
+
+    const saved = localStorage.getItem('theme') || 'light';
+    html.setAttribute('data-theme', saved);
+
+    btn.addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+
+    // 滚动淡入动画
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        
